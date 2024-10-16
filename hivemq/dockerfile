@@ -1,0 +1,7 @@
+FROM hivemq/hivemq4:latest
+
+# Copy the ESE extension
+COPY extensions/enterprise-security-extension-4.9.0.jar /opt/hivemq/extensions/
+
+# Copy the configuration file
+COPY config.xml /opt/hivemq/conf/config.xml

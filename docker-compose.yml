@@ -1,0 +1,26 @@
+version: '3'
+services:
+  hivemq:
+    build: ./hivemq
+    ports:
+      - "1883:1883"
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - HIVEMQ_EXTENSION_ESE_DB_HOST=postgres
+      - HIVEMQ_EXTENSION_ESE_DB_PORT=5432
+      - HIVEMQ_EXTENSION_ESE_DB_NAME=hivemq_ese
+      - HIVEMQ_EXTENSION_ESE_DB_USERNAME=hivemq
+      - HIVEMQ_EXTENSION_ESE_DB_PASSWORD=hivemq
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=hivemq_ese
+      - POSTGRES_USER=hivemq
+      - POSTGRES_PASSWORD=hivemq
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
